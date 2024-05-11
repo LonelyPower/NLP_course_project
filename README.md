@@ -35,3 +35,4 @@
 
 # 需求
 bert_naive_20240501174421.pth
+nlp_course_project\pretrained_weight\bert-base-chinese\pytorch_model.bin
