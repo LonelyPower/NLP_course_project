@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <style>
+        body {
+            width: 1500px;
+            margin: 0 auto; /* 将页面水平居中 */
+        }
+         .background-container {
+            width: 100%;
+            height: 850px; /* 设置容器高度 */
+            background-image:url('{{ url_for('static', filename='img/cool-background.png') }}');
+            background-size: cover; /* 使背景图片覆盖整个容器 */
+            background-repeat: no-repeat; /* 防止背景图片重复 */
+            background-position: center; /* 背景图片居中 */
+        }
+        .pagination {
+            padding-top: 300px;
+        }
+        .page-item {
+            color:green;
+        }
+        .card-container
+        {
+            position:relative;
+	        left:300px;
+	        top:100px
+        }
+        .news-container
+        {
+<!--            flex: 1;-->
+            margin-left: 25px;
+            margin-right: 25px;
+            position:relative;
+
+            top:220px
+
+        }
+         .container-wrapper {
+            display: flex; /* 使用 Flexbox 布局 */
+            justify-content: center;
+            padding-top: 20px;
+        }
+        .nav-container{
+            font-size: 30px;
+            position:relative;
+            left:100px;
+            top:200px
+        }
+        .classify-container{
+            position:relative;
+            top:100px;
+            left:200px;
+            width:1050px
+        }
+
+        .resize-width {
+   /* 设置宽度为自动 */
+  width: 250px; /* 设置输入框的最小宽度 */
+  font-size: 14px; /* 设置字体大小 */
+}
+        .jian{
+            position:relative;
+            top:30px
+        }
+    .card-img-top {
+    display: flex; /* 使用 Flexbox 布局 */
+            justify-content: center;
+    width: 285px;
+    height: 300px;
+    border-radius=2px；
+    box-shadow-sm
+  }
+        .scroll-button {
+            position: relative;
+            top: 500px;
+            left: 285px;
+            border-radius: 50%;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.5); /* 白色背景，50%透明 */
+            color: blue;
+            border: none;
+            cursor: pointer;
+
+        }
+        .transparent-textarea {
+            background-color: rgba(255, 255, 255, 0.5); /* 白色背景，50%透明 */
+            color: black; /* 设置文本颜色 */
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="#">NLPNEWS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000/homepage">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <input class="form-control me-2" id="sear" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit" onclick="search()">Search</button>
+        </div>
+    </div>
+</div>
+<div class="background-container">
+<div class="background-container">
+<div class="classify-container">
+    <textarea class="form-control me-2 transparent-textarea" id="paragraphs" placeholder="{{text}}" aria-label="Search"></textarea>
+    <button class="btn btn-outline-success jian " type="submit" onclick="classify()">Classify</button>
+    <button class="btn btn-outline-success jian " type="submit" onclick="continueSearch()">ContinueSearch</button>
+<button class="scroll-button" onclick="scrollDown()">↓</button>
+</div>
+</div>
+<div class="nav-container">
+    <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='img/cate.svg') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        Categories
+    </a>
+</div>
+
+<div class="container-wrapper">
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/PE.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Sports</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=体育" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/education.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Education</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=教育" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/fangchan.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">House estates</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=房产" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/fashion.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Fashion</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=时尚" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-wrapper">
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/game.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Games</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=游戏" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/housing.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Housing</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=家居" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/politics.jpg')}} " class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Politics</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=政治" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/shares.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Shares</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=股票" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-wrapper">
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/entertainment.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Entertainment</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=娱乐" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/society.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Society</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=社会" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/tec.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Technology</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=科技" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+    <div class="news-container">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='img/xingzuo.jpg') }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Constellation</h5>
+                <p class="card-text"></p>
+                <a href="http://127.0.0.1:5000/app/recm?text=星座" class="btn btn-primary">See More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</div>
+<p id="flaskData" style="display: none;">{{ text }}</p>
+<script>
+
+        function scrollDown() {
+            window.scrollBy({
+                top: 1000, // 设置要滚动的像素值，可以根据需要调整
+                left: 0,
+                behavior: 'smooth' // 使用平滑滚动效果
+            });
+        }
+
+    function classify()
+    {
+
+        var paragraphs = document.getElementById("paragraphs").value;
+
+        // 创建一个新的XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+
+        // 准备发送到Flask后端的GET请求
+        xhr.open("GET", "/app/classify?text=" + paragraphs, true);
+
+        // 发送请求
+        xhr.send();
+        xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE)
+        {
+            if (xhr.status === 200)
+            {
+            var newURL = '/app/classify?text='+paragraphs; // 新的 URL
+            history.pushState(null, '', newURL);
+            location.reload();
+            }
+            else
+            {
+            console.error('发生错误:', xhr.status);
+            }
+        }
+        };
+<!--            var searchText = document.getElementById("flaskData").innerText;-->
+<!--            var newURL = '/app/recm?text='+searchText; // 新的 URL-->
+<!--            history.pushState(null, '', newURL);-->
+<!--            location.reload();-->
+
+    }
+    function continueSearch()
+    {
+    var searchText = document.getElementById("flaskData").innerText;
+        var newURL = '/app/recm?text='+searchText; // 新的 URL
+        history.pushState(null, '', newURL);
+        location.reload();
+}
+    function search() {
+     var searchText = document.getElementById("sear").value;
+
+    // 创建一个新的XMLHttpRequest对象
+    var xhr = new XMLHttpRequest();
+
+        // 准备发送到Flask后端的GET请求
+        xhr.open("GET", "/app/recm?text=" + searchText, true);
+
+        // 发送请求
+        xhr.send();
+
+
+<!--        // 处理响应-->
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+            var newURL = '/app/recm?text='+searchText; // 新的 URL
+            history.pushState(null, '', newURL);
+            location.reload();
+        } else {
+            console.error('发生错误:', xhr.status);
+        }
+        }
+    };
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.js') }}"></script>
+</body>
+</html>

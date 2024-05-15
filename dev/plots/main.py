@@ -20,7 +20,7 @@ from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score
 sys.path.insert(0, r"../../")
 from model import Bert_Naive
-
+from hanlp_restful import HanLPClient
 
 def init(data_path, bert_path):
     global label_dict
@@ -126,7 +126,7 @@ def init(data_path, bert_path):
     # # net.load_state_dict(torch.load(r'H:\My Code\nlp\nlp_course_project-master\news_cls_recm\bert_naive_20240501174421.pth'))
     net.load_state_dict(
         torch.load(
-            r"H:\My Code\nlp\nlp_course_project-master\news_cls_recm\bert_naive_20240501174421.pth",
+            r"../../bert_naive_20240501174421.pth",
             map_location="cpu",
         )
     )
@@ -150,7 +150,8 @@ def wordcloud(tgt_cls,font,chinese_font):
     plt.axis("off")
     plt.title(f"{tgt_cls}词云图", fontsize=100, font=chinese_font)
     # plt.show()
-    plt.savefig("wordcloud.png")
+    plt.savefig(r"H:\My Code\nlp\nlp_course_project\dev\plots\static\img\wordcloud.png")
+    print("a")
     return os.getcwd() + "\\wordcloud.png"
 
 
@@ -171,10 +172,32 @@ def show_bar(tgt_cls,chinese_font):
     plt.title(f"{tgt_cls} 文本长度分布", font=chinese_font)
     plt.xlabel("文本长度")
     # plt.show()
-    plt.savefig("bar.png")
+    plt.savefig(r"H:\My Code\nlp\nlp_course_project\dev\plots\static\img\bar.jpg")
     return os.getcwd() + "\\bar.png"
 
-
+def ner(text):
+    HanLP = HanLPClient("https://hanlp.hankcs.com/api",auth="NDczNUBiYnMuaGFubHAuY29tOkVWVFM4MVBnSUNDcjhpTUE=",language="zh",)
+    a=HanLP(text, tasks="ner*")["ner/msra"]
+    f={}
+    r=[]
+    res={'PERSON':[],'ORGANIZATION':[],'LOCATION':[],'DATE':[]}
+    for i in a:
+        for j in i:
+            if j[0] not in f:
+                f[j[0]]=j[1]
+    for key, value in f.items():
+        r.append([key, value])
+    for i in r:
+        if i[1]=='PERSON':
+            res['PERSON'].append(i[0])
+        elif i[1]=='ORGANIZATION':
+            res['ORGANIZATION'].append(i[0])
+        elif i[1]=='LOCATION':
+            res['LOCATION'].append(i[0])
+        elif i[1]=='DATE':
+            res['DATE'].append(i[0])
+    print(res)
+    return res
 def text_recm(input_,num=10):
     # input_ = "篮球比赛"
     input_embedding = bert_model.embeddings(
@@ -200,11 +223,11 @@ def text_recm(input_,num=10):
     data_cls
     top_recommendation = sorted_recommendations[0]
 
-    # print("最相似的推荐内容:", class_indices[top_recommendation[0]])
+    # print("最相似的推荐内容:", )
     # print("相似度:", top_recommendation[1].item())
     # print("推荐内容:\n", *data_cls[top_recommendation[0]][:10])
     # print([index[0] for index in sorted_recommendations[:5]])
-    return list(data_cls[top_recommendation[0]][:num])
+    return class_indices[top_recommendation[0]],list(data_cls[top_recommendation[0]][:num])
 
 
 def cluster():
@@ -319,3 +342,12 @@ def classify(text):
             ).item()
         ]
     )
+
+# from matplotlib.font_manager import FontProperties
+# font = r"C:\Windows\Fonts\msyh.ttc"
+# chinese_font = FontProperties(fname=font)
+# bert_path = r"H:\My Code\nlp\nlp_course_project\pretrained_weight\bert-base-chinese"
+# data_path = r"H:\大二\冬季\创新实训2\THUCNews\THUCNews"
+# init(data_path, bert_path)
+# show_bar("体育",chinese_font)
+# wordcloud("体育",font,chinese_font)

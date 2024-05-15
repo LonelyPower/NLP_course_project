@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Title</title>
+    <style>
+        body {
+            width: 1500px;
+            /* 设置页面宽度为800像素 */
+            margin: 0 auto;
+            /* 将页面水平居中 */
+        }
+
+        .pagination {
+            position: relative;
+            left: 60px;
+            top: 100px
+        }
+
+        .page-item {
+            color: green;
+        }
+
+        .card-container {
+            position: relative;
+            left: 90px;
+            top: 15px
+        }
+
+        .list-group {
+
+            position: relative;
+            top: 15px;
+            left: 100px;
+        }
+
+        .list-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .navbar {
+            color: red;
+        }
+
+        .datapic {
+            width: 400px;
+            height: 400px;
+            border-radius=2px；
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="http://127.0.0.1:5000/homepage">NLPNEWS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000/homepage">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+                <input class="form-control me-2" id="sear" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" onclick="search()">Search</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3 mb-3 mb-sm-0 my-3" style="max-width: 1000px;">
+                    <div class="card-body">
+                        <h5 class="card-title" id="firstSentence">Card title</h5>
+                        <p class="card-text" id="remainingText">Card text</p>
+                        <p class="card-text"><small class="text-muted">PERSON:{{tags['PERSON']}}<br>ORGANIZATION:
+                                {{tags['ORGANIZATION']}}<br>
+                                LOCATION:{{tags['LOCATION']}}<br>DATE:{{tags['DATE']}}</small></p>
+                    </div>
+                </div>
+                <div class="card mb-3 mb-3 mb-sm-0 my-3" style="max-width: 1000px;">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title" id="firstSentence1">Card title</h5>
+                        <p class="card-text" id="remainingText1"></p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+
+                </div>
+
+                <div class="card mb-3 mb-3 mb-sm-0 my-3" style="max-width: 1000px;">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title" id="firstSentence2">Card title</h5>
+                        <p class="card-text" id="remainingText2"></p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+
+                </div>
+
+                <div class="card mb-3 mb-3 mb-sm-0 my-3" style="max-width: 1000px;">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title" id="firstSentence3">Card title</h5>
+                        <p class="card-text" id="remainingText3">This is a wider card with supporting text below as
+                            a natural
+                            lead-in to
+                            additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+
+                </div>
+
+                <div class="card mb-3 mb-3 mb-sm-0 my-3" style="max-width: 1000px;">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title" id="firstSentence4">Card title</h5>
+                        <p class="card-text" id="remainingText4">This is a wider card with supporting text below as
+                            a natural
+                            lead-in to
+                            additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-4 list-title" style="position:relative;top:20px">
+                Wordcloud
+                <img src="{{ url_for('static', filename='img/wordcloud.png') }}" class="datapic" alt="...">
+                <div style="position:relative;top:20px">Cluster</div>
+                <img src="{{ url_for('static', filename='img/cluster1.png') }}" class="datapic" alt="...">
+                <img src="{{ url_for('static', filename='img/cluster2.png') }}" class="datapic" alt="...">
+                <img src="{{ url_for('static', filename='img/cluster3.png') }}" class="datapic" alt="...">
+                <div style="position:relative;top:20px">Bar</div>
+                <img src="{{ url_for('static', filename='img/bar.jpg') }}" class="datapic" alt="...">
+            </div>
+        </div>
+
+        <p id="flaskData" style="display: none;">{{ text[0] }}</p>
+        <p id="flaskData1" style="display: none;">{{ text[1] }}</p>
+        <p id="flaskData2" style="display: none;">{{ text[2] }}</p>
+        <p id="flaskData3" style="display: none;">{{ text[3] }}</p>
+        <p id="flaskData4" style="display: none;">{{ text[4] }}</p>
+        <p id="cls" style="display: none;">{{ cls }}</p>
+        <div aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        function extractFirstSentence(text) {
+            // 使用两个空格作为分隔符将文本分割成句子数组
+            var sentences = text.split(" 　　");
+
+            // 移除并获取数组的第一个元素，即第一句话
+            var firstSentence = sentences.shift();
+
+            // 使用join方法将剩余句子重新组合成字符串
+            var remainingText = sentences.join("  ");
+
+            return {
+                firstSentence: firstSentence,
+
+                remainingText: remainingText
+            };
+        }
+        function yansgihan() {
+            // 从页面中获取 Flask 返回的数据
+            var textFromFlask = document.getElementById("flaskData").innerText;
+            var textFromFlask1 = document.getElementById("flaskData1").innerText;
+            var textFromFlask2 = document.getElementById("flaskData2").innerText;
+            var textFromFlask3 = document.getElementById("flaskData3").innerText;
+            var textFromFlask4 = document.getElementById("flaskData4").innerText;
+            <!--            document.getElementById("firstSentence").innerText =textFromFlask;-->
+            // 调用函数提取第一句话
+            var result = extractFirstSentence(textFromFlask);
+            var result1 = extractFirstSentence(textFromFlask1);
+            var result2 = extractFirstSentence(textFromFlask2);
+            var result3 = extractFirstSentence(textFromFlask3);
+            var result4 = extractFirstSentence(textFromFlask4);
+            // 将提取的结果显示在页面上
+            document.getElementById("firstSentence").innerText = result.firstSentence;
+            document.getElementById("remainingText").innerText = result.remainingText;
+            document.getElementById("firstSentence1").innerText = result1.firstSentence;
+            document.getElementById("remainingText1").innerText = result1.remainingText;
+            document.getElementById("firstSentence2").innerText = result2.firstSentence;
+            document.getElementById("remainingText2").innerText = result2.remainingText;
+            document.getElementById("firstSentence3").innerText = result3.firstSentence;
+            document.getElementById("remainingText3").innerText = result3.remainingText;
+            document.getElementById("firstSentence4").innerText = result4.firstSentence;
+            document.getElementById("remainingText4").innerText = result4.remainingText;
+        };
+
+        window.onload = function () {
+            // 从页面中获取 Flask 返回的数据
+            var textFromFlask = document.getElementById("flaskData").innerText;
+            var textFromFlask1 = document.getElementById("flaskData1").innerText;
+            var textFromFlask2 = document.getElementById("flaskData2").innerText;
+            var textFromFlask3 = document.getElementById("flaskData3").innerText;
+            var textFromFlask4 = document.getElementById("flaskData4").innerText;
+
+
+            var keyword = document.getElementById("cls").innerText;
+            var xhr = new XMLHttpRequest();
+            // 准备发送到Flask后端的GET请求
+            xhr.open("GET", "/app/wordcloud?name=" + keyword, true);
+
+            // 发送请求
+            xhr.send();
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open("GET", "/app/bar?name=" + keyword, true);
+            xhr2.send();
+
+            // 调用函数提取第一句话
+            var result = extractFirstSentence(textFromFlask);
+            var result1 = extractFirstSentence(textFromFlask1);
+            var result2 = extractFirstSentence(textFromFlask2);
+            var result3 = extractFirstSentence(textFromFlask3);
+            var result4 = extractFirstSentence(textFromFlask4);
+            // 将提取的结果显示在页面上
+            document.getElementById("firstSentence").innerText = result.firstSentence;
+            document.getElementById("remainingText").innerText = result.remainingText;
+            document.getElementById("firstSentence1").innerText = result1.firstSentence;
+            document.getElementById("remainingText1").innerText = result1.remainingText;
+            document.getElementById("firstSentence2").innerText = result2.firstSentence;
+            document.getElementById("remainingText2").innerText = result2.remainingText;
+            document.getElementById("firstSentence3").innerText = result3.firstSentence;
+            document.getElementById("remainingText3").innerText = result3.remainingText;
+            document.getElementById("firstSentence4").innerText = result4.firstSentence;
+            document.getElementById("remainingText4").innerText = result4.remainingText;
+        };
+
+        function search() {
+            var searchText = document.getElementById("sear").value;
+
+
+            // 创建一个新的XMLHttpRequest对象
+            var xhr = new XMLHttpRequest();
+
+            // 准备发送到Flask后端的GET请求
+            xhr.open("GET", "/app/recm?text=" + searchText, true);
+
+            // 发送请求
+            xhr.send();
+
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var newURL = '/app/recm?text=' + searchText; // 新的 URL
+                        history.pushState(null, '', newURL);
+
+                        var xhr1 = new XMLHttpRequest();
+                        xhr1.open("GET", "/app/wordcloud?name=" + keyword, true);
+                        // 发送请求
+                        xhr1.send();
+                        var xhr2 = new XMLHttpRequest();
+                        xhr2.open("GET", "/app/bar?name=" + keyword, true);
+                        xhr2.send();
+                        xhr2.onreadystatechange = function () {
+                            if (xhr2.readyState == 4 && xhr2.status == 200) {
+                                // 第二个请求成功返回后执行的操作
+                                console.log("第二个XHR 返回值:", xhr2.responseText);
+                                xhr1.onreadystatechange = function () {
+                                    if (xhr1.readyState == 4 && xhr1.status == 200) {
+                                        // 第一个请求成功返回后执行的操作
+                                        console.log("第一个XHR 返回值:", xhr1.responseText);
+
+                                        // 在这里检查第二个XHR是否已经成功返回
+                                        // checkBothRequests();
+                                    }
+                                };
+                                // 在这里检查第一个XHR是否已经成功返回
+                                // checkBothRequests();
+                            }
+                        };
+
+
+                    }
+                    location.reload();
+                } else {
+                    console.error('发生错误:', xhr.status);
+                }
+            }
+        };
+
+    </script>
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <script
+        src="{{ url_for('static', filename='plugins/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.js') }}"></script>
+</body>
+
+</html>

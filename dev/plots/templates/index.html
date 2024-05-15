@@ -1,0 +1,49 @@
+<!-- frontend/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Vue Example</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/@vue/axios"></script>
+</head>
+<body>
+<div id="app">
+    <form method="post">
+        <input type="text" name="text" placeholder="text">
+        <input type="number" name="num" placeholder="num">
+        <button @click="getText">Get Text</button>
+        <p>{{ response }}</p>
+    </form>
+
+
+</div>
+
+<script>
+    new Vue({
+            el: '#app',
+            data: {
+                text: '',
+                num: 0,
+                response: ''
+            },
+            methods: {
+                getText: function() {
+                    axios.get('/app/recm', {
+                        params: {
+                            text: this.text,
+                            num: this.num
+                        }
+                    })
+                    .then(response => {
+                        this.response = response.data.text;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            }
+        });
+</script>
+</body>
+</html>
